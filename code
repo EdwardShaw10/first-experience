@@ -34,3 +34,30 @@ if (/WebKit/i.test(navigator.userAgent)){ 		// 兼容Safari浏览器
         }
     }, 10);
 }
+
+
+调整内容随窗口比例变化
+var box = document.getElementById("box");		// �ｷ����絖���綣�������
+box.style.position = "absolute";				// 膸�絲劫�篏�
+box.style.backgroundColor = "red";		// ������
+box.style.width = w() * 0.8 + "px";	// 莅丞舟��絖�絎遵墾筝榊����綺���0.8��
+box.style.height = h() * 0.8 + "px";	// 莅丞舟��絖�蕭�綺�減腦����綺���0.8��
+window.onresize = function(){	// 羈���resize篋�篁九����醇�逸�����莪��雁��絖�紊у��
+    box.style.width = w() * 0.8 + "px";
+    box.style.height = h() * 0.8 + "px";
+}
+function w(){					// �ｷ��腦����綺�
+    if (window.innerWidth) 		// �弱�DOM
+        return window.innerWidth;
+    else if ((document.body) && (document.body.clientWidth)) 
+	// �弱�IE
+        return document.body.clientWidth;
+}
+function h(){					// �ｷ��腦����綺�
+    if (window.innerHeight) 	// �弱�DOM
+        return window.innerHeight;
+    else if ((document.body) && (document.body.clientHeight)) 
+	// �弱�IE
+        return document.body.clientHeight;
+}
+
