@@ -93,3 +93,17 @@ a.onselect = function(){		// 为第一个文本框绑定select事件处理函数
     }
 
 
+禁止表单提交
+var t = document.getElementsByTagName("input")[0]; 	// 获取文本框的引用指针
+var f = document.getElementsByTagName("form")[0]; 	// 获取表单的引用指针
+f.onsubmit = function(e){
+	if(t.value.length < 1){
+		var  event = e || window.event;
+        if (event.preventDefault){
+            event.preventDefault();
+        } else {
+            event.returnValue = false;
+        }
+	}
+}
+
