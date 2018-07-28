@@ -546,3 +546,62 @@ function offsetP(e, o){
 	// 如果元素静态显示，则对其进行绝对定位
     e.style.left = getB(e).x + o.x + "px";		// 设置x轴的距离
     e.style.top = getB(e).y + o.y + "px";		// 设置y轴的距离
+    
+    
+    
+    
+    
+  显示隐藏元素  
+    // 设置或切换元素的显示或隐藏
+// 参数：e表示要显示或隐藏的元素，b是一个布尔值，当为ture时，将显示元素e；当为false时，将隐藏元素e。如果省略参数b，则根据元素e的显示状态，进行显示或隐藏切换
+// 返回值：无
+function display(e, b){
+    // 监测第二个参数的类型。如果该参数存在且不为布尔值，则抛出异常
+    if(b && (typeof b != "boolean")) throw new Error("第二个参数应该是布尔值!");
+    var c = getStyle(e, "display");		// 获取当前元素的显示属性值
+    (c != "none") && (e._display = c);
+ 	// 记录元素的显示性质，并存储到元素的属性中
+    e._display = e._display || "";
+	// 如果没有定义显示性质，则赋值为空字符串
+    if(b || (c == "none") ){ 		// 当第二个参数值为true，或者元素隐藏时
+        e.style.display = e._display; 
+	// 则将调用元素的_display属性值恢复元素或显示元素
+    }
+    else{
+        e.style.display = "none";	// 否则隐藏元素
+    }
+}
+
+
+
+// 设置元素的透明度
+// 参数：e表示要预设置的元素，n表示一个数值，取值范围为0~100，如果省略，则默认为100，即不透明显示元素
+// 返回值：无
+function setOpacity(e, n){
+    var n = parseFloat(n); 		// 把第二个参数转换为浮点数
+    if(n && (n>100) || !n) n=100; 
+	// 如果第二个参数存在且值大于100，或者不存在该参数，则设置其为100
+    if(n && (n<0))  n =0; 		// 如果第二个参数存在且值小于0，则设置其为0
+    if (e.filters){ 			// 兼容IE浏览器
+        e.style.filter = "alpha(opacity=" + n + ")";
+    }
+    else{						// 兼容DOM标准
+        e.style.opacity = n / 100;
+    }
+}
+
+// 获取元素的透明度
+// 参数：e表示要预设置的元素
+// 返回值：元素的透明度值，范围在1~100之间
+function getOpacity(e){
+    var r;
+    if ( ! e.filters){
+        if (e.style.opacity) return parseFloat(e.style.opacity) * 100;
+    }
+    try{
+        return e.filters.item('alpha').opacity
+    }
+    catch(o){
+        return 100;
+    }
+}
