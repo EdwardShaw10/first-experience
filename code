@@ -736,3 +736,107 @@ function fade(e, t, io){
 
 
 
+
+
+
+
+
+
+json数据梳理
+//【示例1】下面代码使用JSON.parse将JSON字符串转换成对象。
+var jsontext = '{"name":"张三","qq":"111111111","phone":["010-66666666","010-88888888"]}';
+var contact = JSON.parse(jsontext);
+document.write(contact.name + ", " + contact.qq);// 输出：张三, 111111111
+
+//【示例2】可选参数reviver是一个带有key和value两个参数的函数，其作用于结果，让过滤和转换返回值成为可能。例如，下面示例将把字符串'{"a": "1.5", "b": "2.3"}';转换为对象，然后通过int()函数对转换的对象成员值进行处理，确保每个值都为整数。
+var n = '{"a": "1.5", "b": "2.3"}';
+var result = JSON.parse(n,int );
+document.write(result.a); 					//输出：1
+function  int(key, value){
+    if (typeof value == 'string'){
+        return parseInt(value);
+    } else {
+        return value; 
+    }
+} 
+
+//【示例3】下面示例使用JSON.parse序列化ISO格式的日期字符串，在序列化过程中调用dateReviver()函数把每个成员的值进行转换，并返回Date格式的对象。
+var jsontext2 = '{ "hiredate": "2015-01-01T12:00:00Z", "birthdate": "2015-12-25T12:00:00Z" }';  
+var dates = JSON.parse(jsontext2, dateReviver);  
+document.write(dates.birthdate.toUTCString());  //输出：Fri, 25 Dec 2015 12:00:00 UTC
+function dateReviver(key, value) {  
+    var a;  
+    if (typeof value === 'string') {  
+        a = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(value);  
+        if (a) {  
+            return new Date(Date.UTC(+a[1], +a[2] - 1, +a[3], +a[4], +a[5], +a[6]));  
+        }  
+    }  
+    return value;  
+};
+
+
+
+
+
+
+
+json对象数组转化为字符串
+//【示例1】下面示例演示了如何使用JSON.stringify将数组转换成JSON字符串，然后使用JSON.parse将该字符串重新转换成数组。 
+var arr = ["a", "b", "c"]; 
+var str = JSON.stringify(arr); 
+document.write(str); 			// ["a","b","c"]
+document.write ("<br/>"); 
+var newArr = JSON.parse(str); 
+while (newArr.length > 0) { 
+    document.write(newArr.pop() + "<br/>"); 
+}
+//【示例2】下面示例把对象nums转换为JSON字符串，然后传入replacer()函数过滤出即将被字符串化的对象中值为13的属性。
+var nums = {
+    "first": 7,
+    "second": 14,
+    "third": 13
+}
+var luckyNums = JSON.stringify(nums,replacer);
+document.write(luckyNums); 			//{"first":7,"second":14}
+function replacer(key, value){
+    if (value == 13) {
+        return undefined;
+    } else {
+        return value;
+    }
+} 
+//【示例3】下面示例是在上面示例基础上，设置space参数值为4，格式化JSON字符串，设置水平缩进为4个空格数，显示效果如图23-2左图所示。如果不传递space参数值，则显示效果如图23-2右图所示。
+var nums = {
+    "first": 7,
+    "second": 14,
+    "third": 13
+}
+var luckyNums = JSON.stringify(nums,replacer,4);
+document.write("<pre>" + luckyNums + "</pre>");
+function replacer(key, value){
+    if (value == 13) {
+        return undefined;
+    } else {
+        return value;
+    }
+}
+//【示例4】下面示例使用JSON.stringify将contact对象转换为JSON 文本，定义memberfilter数组以便只转换name、sex和tel成员，同时排序显示为name、sex和tel，显示效果如图23-3所示。
+var contact = {
+    qq : "111111111",
+	name : "张三",
+	tel : "13555556666",
+	sex : "men",
+	url : "http://www.mysite.cn/"
+}
+var memberfilter = ["name","sex","tel"];
+var jsonText = JSON.stringify(contact, memberfilter, "\t");
+document.write("<pre>" + jsonText + "</pre>");
+//【示例5】下面示例使用JSON.stringify将一个数组进行转换，调用replaceToUpper 函数将数组中的每个字符串转换为大写形式。
+var continents = ["Europe","Asia","Australia","Antarctica","North America","South America","Africa"];
+var jsonText = JSON.stringify(continents, replaceToUpper);
+function replaceToUpper(key, value) {
+    return value.toString().toUpperCase();
+}
+document.write(jsonText);		//输出："EUROPE,ASIA,AUSTRALIA,ANTARCTICA,NORTH AMERICA,SOUTH AMERICA,AFRICA"
+
