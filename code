@@ -840,3 +840,41 @@ function replaceToUpper(key, value) {
 }
 document.write(jsonText);		//输出："EUROPE,ASIA,AUSTRALIA,ANTARCTICA,NORTH AMERICA,SOUTH AMERICA,AFRICA"
 
+
+
+
+
+
+
+
+创建XMLHTTPrequest对象兼容
+var XHR = function() {
+    var standard = {
+        createXHR : function() {
+            return new XMLHttpRequest();
+        }
+    }
+    var newActionXObject = {
+        createXHR : function() {
+            return new ActionXObject("Msxml2.XMLHTTP");
+        }
+    }
+    var oldActionXObject = {
+        createXHR : function() {
+            return new ActionXObject("Microsoft.XMLHTTP");
+        }
+    }
+    if(standard.createXHR()) {
+        return standard;
+    } else {
+        try {
+            newActionXObject.createXHR();
+            return newActionXObject;
+        } catch(o) {
+            oldActionXObject.createXHR();
+            return oldActionXObject;
+        }
+    }
+}();
+现在浏览器遵循
+var XMLHTTP=new XMLHttpRequest（）
