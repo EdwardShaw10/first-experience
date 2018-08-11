@@ -1206,3 +1206,13 @@ window.addEventListener("online", function(e) {
 window.addEventListener("offline", function(e) {
     log("Offline");
 }, true);
+
+获取元素到body距离顶部
+eg.getTop = function(El){
+             var top = 0;
+             do{
+                 top += El.offsetTop;//计算Top值
+             }while((El = El.offsetParent).nodeName != 'BODY');//获取到body节点为止
+             return top;
+         };
+	
