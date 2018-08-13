@@ -1272,3 +1272,21 @@ var eg={};
         st.innerHTML=str;
     });
 </script>
+
+
+
+datalist用法
+<form>
+你喜欢的编程语言：<input id="love" list="p" /><br /><br /><br />
+<datalist id="p">
+  <option value="JavaScript">
+  <option value="C#">
+  <option value="Node.js">
+  <option value="PHP">
+  <option value="CSS3">
+  <option value="HTML5">
+  <option value="jQuery">
+  <option value="Ext">
+  <option value="Java">
+</datalist>
+</form>
