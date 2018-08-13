@@ -1232,3 +1232,43 @@ var eg={};
             target["on"+type]=handler;
         }
     };
+
+
+
+
+
+自动更心提示
+<form>
+    <input id="umail" list="1st" autocomplete="off"/><br/><br/><br/><br/><br/>
+    <datalist id="1st"></datalist>
+</form>
+
+<script>
+    var eg={};
+    eg.$=function (id) {
+        return document.getElementById(id);
+    };
+    var umail=eg.$("umail");
+    var st=eg.$("1st");
+    var datalist=["qq.com","163.com","sina.com","gmail.com"];
+    eg.addListener = function(target,type,handler){
+        if(target.addEventListener){
+            target.addEventListener(type,handler,false);
+        }else if(target.attachEvent){
+            target.attachEvent("on"+type,handler);
+        }else{
+            target["on"+type]=handler;
+        }
+    };
+    eg.addListener(umail,"input",function () {
+        st.innerHTML="";
+        var k=umail.value;
+        if (k.indexOf("@")>-1) return;
+        if (k=="") return;
+        var str="";
+        for (var i=0;i<datalist.length;i++){
+            str+='<option value="'+k+"@"+datalist[i]+'" >';
+        }
+        st.innerHTML=str;
+    });
+</script>
