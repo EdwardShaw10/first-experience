@@ -1215,4 +1215,20 @@ eg.getTop = function(El){
              }while((El = El.offsetParent).nodeName != 'BODY');//获取到body节点为止
              return top;
          };
-	
+
+
+
+兼容浏览器
+var eg={};
+    eg.$=function (id) {
+        return document.getElementById(id);
+    };
+    eg.addListener = function(target,type,handler){
+        if(target.addEventListener){
+            target.addEventListener(type,handler,false);
+        }else if(target.attachEvent){
+            target.attachEvent("on"+type,handler);
+        }else{
+            target["on"+type]=handler;
+        }
+    };
