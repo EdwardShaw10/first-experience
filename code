@@ -1290,3 +1290,16 @@ datalist用法
   <option value="Java">
 </datalist>
 </form>
+
+
+
+控制显示和隐藏
+$(function(){ 
+    $("button").click(function(){
+        $("ul#list").toggle("slow");
+    });
+})
+toggle（speed，easing，fun)参数都是可选
+speed 默认00，可选参数slow，normal，fast
+easing默认是swing，可选参数linear
+fun可选参数，动画完成执行的函数
